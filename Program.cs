@@ -45,7 +45,7 @@ public class passwordGenerator
 
         string password = ""; 
 
-        int firstNumber = 1, lastNumber;
+        int firstNumber = 0, lastNumber;
 
         if (complexityOption == 1)
         {
