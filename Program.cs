@@ -1,10 +1,11 @@
-﻿
+﻿using System.Text;
 
 namespace passwordM;
 
 
 public class passwordGenerator
-{
+{ 
+      // ~~~~~~~~~~~~~~~ Converts a string to integer ~~~~~~~~~~~~~~~
     static int StringToInt(string? inputString)
     {
         if (string.IsNullOrWhiteSpace(inputString))
@@ -19,7 +20,8 @@ public class passwordGenerator
 
         return intValue;
     }
-    static int randomCharGen(int firstNumber, int secondNumber)
+    // ~~~~~~~~~~~~~~~ Genetates a random number between two integer parameters ~~~~~~~~~~~~~~~
+    static int GenerateRandomNumber(int firstNumber, int secondNumber)
     {
         Random rand = new Random();
 
@@ -27,6 +29,40 @@ public class passwordGenerator
 
         return randomNumber;
     }
+    //
+    static string GeneratePassword(int passwordLength, int complexityOption)
+        {
+            string characters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890!@#$%^&*()";
+            StringBuilder passwordBuilder = new StringBuilder();
+
+            int minimumCharacterIndex = 0;
+            int maximumCharacterIndex = 0;
+
+            switch (complexityOption)
+            {
+                case 1:
+                    maximumCharacterIndex = 52;
+                    break;
+                case 2:
+                    maximumCharacterIndex = 62;
+                    break;
+                case 3:
+                    maximumCharacterIndex = 72;
+                    break;
+                default:
+                    throw new ArgumentException("Invalid complexity option.");
+            }
+
+            for (int i = 0; i < passwordLength; i++)
+            {
+                int randomIndex = GenerateRandomNumber(minimumCharacterIndex, maximumCharacterIndex);
+                char randomCharacter = characters[randomIndex];
+                passwordBuilder.Append(randomCharacter);
+            }
+
+            string password = passwordBuilder.ToString();
+            return password;
+        }
     // ~~~~~~~~~~~~~~~ Main ~~~~~~~~~~~~~~~
     public static void Main(string[] args)
     {
@@ -41,35 +77,14 @@ public class passwordGenerator
         readToInt = Console.ReadLine();
         int complexityOption = StringToInt(readToInt);
 
-        string characters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890!@#$%^&*()";
-
-        string password = ""; 
-
-        int firstNumber = 0, lastNumber;
-
-        if (complexityOption == 1)
+        try
         {
-            lastNumber = 52;
+            string password = GeneratePassword(passwordLength, complexityOption);
+            Console.WriteLine(password);
         }
-        else if (complexityOption == 2)
+        catch (ArgumentException ex)
         {
-            lastNumber = 62;
+            Console.WriteLine(ex.Message);
         }
-        else if (complexityOption == 3)
-        {
-            lastNumber = 72;
-        }
-        else
-        {
-            Console.WriteLine("There's such option. Terminating program..");
-            return;
-        }
-        
-        for (int i=0; i < passwordLength; i++)
-        {
-            password += characters[randomCharGen(firstNumber, lastNumber)];
-        }
-
-        Console.WriteLine(password);
     }
 }
