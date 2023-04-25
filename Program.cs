@@ -29,7 +29,7 @@ public class passwordGenerator
 
         return randomNumber;
     }
-    //
+    //~~~~~~~~~~~~~~~ Genetates a random password using the random number generator. It has two parameteres: (1) the desired password length and (2) the password complexity ~~~~~~~~~~~~~~~
     static string GeneratePassword(int passwordLength, int complexityOption)
         {
             string characters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890!@#$%^&*()";
